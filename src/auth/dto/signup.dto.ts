@@ -1,15 +1,30 @@
-import{IsEmail, IsNotEmpty,IsString, MinLength} from 'class-validator';
+import { IsEmail, IsString, MinLength, IsOptional, IsEnum } from 'class-validator';
+import { UserRole } from '../../user/schema/user.schema'; // adjust import path if needed
 
 export class SignUpDto {
-    @IsNotEmpty()
-    @IsString()
-     readonly name : string;
+  @IsEmail()
+  email: string;
 
- @IsNotEmpty()
-    @IsEmail({},{message:'Please enter correct email'})
-  readonly  email:string;
+  @IsString()
+  @MinLength(8)
+  password: string;
 
-    @IsNotEmpty()
-    @MinLength(6)
-   readonly password:string;
+  @IsString()
+  name: string;
+
+  @IsOptional()
+  @IsString()
+  dateNaissance?: string;
+
+  @IsOptional()
+  @IsString()
+  address?: string;
+
+  @IsOptional()
+  @IsString()
+  telephone?: string;
+
+  @IsOptional()
+  @IsEnum(UserRole, { message: 'Role must be admin, responsable, or user' })
+  role?: UserRole;
 }
